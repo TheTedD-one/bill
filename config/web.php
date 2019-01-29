@@ -7,11 +7,21 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'ru-RU',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'basePath' => '@web',
+                    'sourcePath' => null,
+                    'js' => ['js/core/jquery.min.js']
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '4-Oh-WL5oCHWD9ddxPsJPz_F5ml9JrxN',

@@ -21,11 +21,20 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/icons/icomoon/styles.css',
+        'css/core/bootstrap.min.css',
+        'css/core/core.min.css',
+        'css/core/components.min.css',
+        'css/core/colors.min.css',
     ];
     public $js = [
+        'js/plugins/pace.min.js',
+        'js/core/bootstrap.min.js',
+        'js/plugins/blockui.min.js',
+        'js/core/app.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\web\JqueryAsset',
     ];
 }
