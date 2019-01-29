@@ -126,13 +126,13 @@ JS;
 // Menu Fix
 $script = <<< JS
         $(document).ready(function() {
-            $('.nav.nav-sidebar .nav-item.active > a').each(function() {
+            $('.navigation.navigation-main.navigation-accordion .nav-item.active > a').each(function() {
                 this.classList.add('active');
             });
-            $('.nav.nav-sidebar .nav-item.nav-item-submenu.active').each(function() {
+            $('.navigation.navigation-main.navigation-accordion .nav-item.nav-item-submenu.active').each(function() {
                 this.classList.add('nav-item-open');
             });
-            $('.nav.nav-sidebar .nav-item.nav-item-submenu.active > ul').each(function() {
+            $('.navigation.navigation-main.navigation-accordion .nav-item.nav-item-submenu.active > ul').each(function() {
                 $(this).show();
             });
         });

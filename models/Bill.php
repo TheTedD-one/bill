@@ -14,17 +14,11 @@ use app\interfaces\RemovableInterface;
  */
 class Bill extends BaseModel implements RemovableInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'bill';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -44,9 +38,6 @@ class Bill extends BaseModel implements RemovableInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

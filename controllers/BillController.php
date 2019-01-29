@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\helpers\FlashHelper;
+use app\models\Position;
+use app\models\PositionSearch;
 use Yii;
 use app\models\Bill;
 use app\models\BillSearch;
@@ -45,24 +47,53 @@ class BillController extends BaseController
             $model->save();
 
             FlashHelper::setFlash(FlashHelper::TYPE_SUCCESS);
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'bill_id' => $model->id]);
         } catch(\Exception $e) {
             FlashHelper::setFlash(FlashHelper::TYPE_ERROR);
             return $this->redirect(['index']);
         }
     }
 
-    /**
-     * Displays a single Bill model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
+    public function actionView($bill_id)
     {
+        $billModel = $this->findModel($bill_id);
+
+        $searchModel = new PositionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'billModel' => $billModel,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionCreatePosition()
+    {
+        $position = new Position();
+
+        $position->bill_id = 1;
+        $position->name = 'asd';
+        $position->unit = 1;
+        $position->quantity = 1;
+        $position->price = 1;
+        $position->tax_rate = 1;
+        $position->tax_sum = 1;
+        $position->total_price = 1;
+        $position->excise_rate = 1;
+        $position->excise_sum = 1;
+
+        $position->save();
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Bill::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 
@@ -100,19 +131,5 @@ class BillController extends BaseController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Bill model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Bill the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Bill::findOne($id)) !== null) {
-            return $model;
-        }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 }
