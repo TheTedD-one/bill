@@ -1,7 +1,9 @@
 <?php
 
+use app\helpers\FlashHelper;
 use yii\helpers\Html;
 use app\assets\AppAsset;
+use yii\helpers\Json;
 
 AppAsset::register($this);
 ?>
@@ -82,4 +84,60 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 </body>
 </html>
+
+<?php
+// Flashes
+if (Yii::$app->session->hasFlash('success')) {
+    $message = Json::encode(FlashHelper::getFlash(FlashHelper::TYPE_SUCCESS));
+
+    $script = <<< JS
+        $(document).ready(function() {
+            new Noty({
+                theme: ' alert alert-success alert-styled-left p-0 bg-white',
+                text: $message,
+                type: 'success',
+                progressBar: false,
+                closeWith: ['button'],
+                layout: 'topRight',
+                timeout: false
+            }).show();
+        });
+JS;
+    $this->registerJs($script, yii\web\View::POS_END);
+} else if (Yii::$app->session->hasFlash('error')) {
+    $message = Json::encode(FlashHelper::getFlash(FlashHelper::TYPE_ERROR));
+
+    $script = <<< JS
+        $(document).ready(function() {
+            new Noty({
+                theme: ' alert alert-danger alert-styled-left p-0',
+                text: $message,
+                type: 'error',
+                progressBar: false,
+                closeWith: ['button'],
+                layout: 'topRight',
+                timeout: false
+            }).show();
+        });
+JS;
+    $this->registerJs($script, yii\web\View::POS_END);
+}
+
+// Menu Fix
+$script = <<< JS
+        $(document).ready(function() {
+            $('.nav.nav-sidebar .nav-item.active > a').each(function() {
+                this.classList.add('active');
+            });
+            $('.nav.nav-sidebar .nav-item.nav-item-submenu.active').each(function() {
+                this.classList.add('nav-item-open');
+            });
+            $('.nav.nav-sidebar .nav-item.nav-item-submenu.active > ul').each(function() {
+                $(this).show();
+            });
+        });
+JS;
+$this->registerJs($script, yii\web\View::POS_END);
+?>
+
 <?php $this->endPage() ?>

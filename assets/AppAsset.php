@@ -28,10 +28,14 @@ class AppAsset extends AssetBundle
         'css/core/colors.min.css',
     ];
     public $js = [
+        //core
         'js/plugins/pace.min.js',
         'js/core/bootstrap.min.js',
         'js/plugins/blockui.min.js',
-        'js/core/app.js'
+        'js/core/app.js',
+
+        //noty
+        'js/plugins/notifications/noty.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
