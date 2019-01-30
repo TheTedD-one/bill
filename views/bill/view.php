@@ -31,11 +31,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
-                    'id',
-                    'is_deleted',
-                    'created_date',
-                    'modified_date',
-                    'bill_id',
+                    [
+                        'attribute' => 'id',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'is_deleted',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'created_date',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'modified_date',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'bill_id',
+                        'enableSorting' => false
+                    ],
 
                     ['class' => 'yii\grid\ActionColumn'],
                 ],

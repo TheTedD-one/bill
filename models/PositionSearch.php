@@ -73,24 +73,25 @@ class PositionSearch extends Position
         return Model::scenarios();
     }
 
-    public function search($params)
+    public function search($params, $bill_id)
     {
         $query = Position::find();
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
+        $query->andFilterWhere([
+            'is_deleted' => Bill::NOT_DELETED,
+            'bill_id' => $bill_id,
+        ]);
 
         if (!$this->validate()) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'is_deleted' => Bill::NOT_DELETED,
             'id' => $this->id,
-            'bill_id' => $this->bill_id,
         ]);
 
         return $dataProvider;

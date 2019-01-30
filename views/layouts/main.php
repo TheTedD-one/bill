@@ -122,22 +122,6 @@ JS;
 JS;
     $this->registerJs($script, yii\web\View::POS_END);
 }
-
-// Menu Fix
-$script = <<< JS
-        $(document).ready(function() {
-            $('.navigation.navigation-main.navigation-accordion .nav-item.active > a').each(function() {
-                this.classList.add('active');
-            });
-            $('.navigation.navigation-main.navigation-accordion .nav-item.nav-item-submenu.active').each(function() {
-                this.classList.add('nav-item-open');
-            });
-            $('.navigation.navigation-main.navigation-accordion .nav-item.nav-item-submenu.active > ul').each(function() {
-                $(this).show();
-            });
-        });
-JS;
-$this->registerJs($script, yii\web\View::POS_END);
 ?>
 
 <?php $this->endPage() ?>

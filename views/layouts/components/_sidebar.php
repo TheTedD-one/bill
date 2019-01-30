@@ -1,5 +1,7 @@
 <?php
     use yii\helpers\Html;
+use yii\widgets\Menu;
+
 ?>
 <div class="sidebar sidebar-main">
     <div class="sidebar-content">
@@ -33,26 +35,21 @@
         <!-- Main navigation -->
         <div class="sidebar-category sidebar-category-visible">
             <div class="category-content no-padding">
-                <ul class="navigation navigation-main navigation-accordion">
-                    <!-- Main -->
-                    <li class="navigation-header"><span>Меню</span> <i class="icon-menu" title="Main pages"></i></li>
-                    <li class="active"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-                    <li>
-                        <a href="#"><i class="icon-stack2"></i> <span>Page layouts</span></a>
-                        <ul>
-                            <li><a href="layout_navbar_fixed.html">Fixed navbar</a></li>
-                            <li><a href="layout_navbar_sidebar_fixed.html">Fixed navbar &amp; sidebar</a></li>
-                            <li><a href="layout_sidebar_fixed_native.html">Fixed sidebar native scroll</a></li>
-                            <li><a href="layout_navbar_hideable.html">Hideable navbar</a></li>
-                            <li><a href="layout_navbar_hideable_sidebar.html">Hideable &amp; fixed sidebar</a></li>
-                            <li><a href="layout_footer_fixed.html">Fixed footer</a></li>
-                            <li class="navigation-divider"></li>
-                            <li><a href="boxed_default.html">Boxed with default sidebar</a></li>
-                            <li><a href="boxed_mini.html">Boxed with mini sidebar</a></li>
-                            <li><a href="boxed_full.html">Boxed full width</a></li>
-                        </ul>
-                    </li>
-                </ul>
+
+                <?php
+                echo Menu::widget([
+                    'items' => require __DIR__ . '/_menu.php',
+                    'options' => [
+                        'class' => 'navigation navigation-main navigation-accordion',
+                    ],
+                    'submenuTemplate' => "\n<ul class='nav nav-group-sub'>\n{items}\n</ul>\n",
+                    'activeCssClass' => 'active',
+                    'encodeLabels' => false,
+                    'activateParents' => true,
+                    'itemOptions' => ['class' => 'nav-item'],
+                    'linkTemplate' => '<a href="{url}" class="nav-link"><span>{label}</span></a>'
+                ]); ?>
+
             </div>
         </div>
         <!-- /main navigation -->

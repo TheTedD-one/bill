@@ -30,14 +30,40 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                    //['class' => 'yii\grid\SerialColumn'],
 
-                    'id',
-                    'is_deleted',
-                    'created_date',
-                    'modified_date',
+                    [
+                        'attribute' => 'id',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'is_deleted',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'created_date',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'modified_date',
+                        'enableSorting' => false
+                    ],
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'class' => '\yii\grid\ActionColumn',
+                        'template' => '{view}',
+                        'buttons' => [
+                            'view' => function($url, $model) {
+                                return Html::a(
+                                    '<i class="icon-file-eye2"></i>',
+                                    \yii\helpers\Url::to(['view', 'bill_id' => $model->id]),
+                                    [
+                                        'class' => 'list-icons-item',
+                                    ]
+                                );
+                            }
+                        ]
+                    ],
                 ],
             ]); ?>
             <?php Pjax::end(); ?>
