@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <h5 class="panel-title">Счета<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
         <div class="heading-elements">
             <?= Html::a('Добавить позицию', ['create-position'], ['class' => 'btn btn-success']) ?>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#position_form_modal">Добавить позицию</button>
         </div>
     </div>
 
@@ -60,19 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-<div class="bill-view">
-
-
-    <p>
-<!--        --><?//= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-<!--        --><?//= Html::a('Delete', ['delete', 'id' => $model->id], [
-//            'class' => 'btn btn-danger',
-//            'data' => [
-//                'confirm' => 'Are you sure you want to delete this item?',
-//                'method' => 'post',
-//            ],
-//        ]) ?>
-    </p>
-
-
+<div id="position_form_modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <?= $this->render('components/_position-create-form', [
+            'positionModel' => $positionModel,
+            'billModel' => $billModel,
+        ]); ?>
+    </div>
 </div>

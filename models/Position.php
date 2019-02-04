@@ -25,6 +25,10 @@ use Yii;
  */
 class Position extends BaseModel implements RemovableInterface
 {
+    const UNIT_PIECE = 1;
+    const UNIT_KILOGRAM = 2;
+    const UNIT_LITER = 3;
+
     public static function tableName()
     {
         return 'position';
@@ -48,6 +52,7 @@ class Position extends BaseModel implements RemovableInterface
                     'unit',
                     'quantity',
                     'price',
+                    'total_price_without_tax',
                     'tax_rate',
                     'tax_sum',
                     'total_price',
@@ -67,6 +72,7 @@ class Position extends BaseModel implements RemovableInterface
                 [
                     'quantity',
                     'price',
+                    'total_price_without_tax',
                     'tax_rate',
                     'tax_sum',
                     'total_price',
@@ -93,15 +99,16 @@ class Position extends BaseModel implements RemovableInterface
             'created_date' => 'Created Date',
             'modified_date' => 'Modified Date',
             'bill_id' => 'Bill ID',
-            'name' => 'Name',
-            'unit' => 'Unit',
-            'quantity' => 'Quantity',
-            'price' => 'Price',
-            'tax_rate' => 'Tax Rate',
-            'tax_sum' => 'Tax Sum',
-            'total_price' => 'Total Price',
-            'excise_rate' => 'Excise Rate',
-            'excise_sum' => 'Excise Sum',
+            'name' => 'Наименование товара',
+            'unit' => 'Единица измерения',
+            'quantity' => 'Количество',
+            'price' => 'Цена',
+            'total_price_without_tax' => 'Стоимость товаров без НДС',
+            'tax_rate' => 'Ставка НДС',
+            'tax_sum' => 'Сумма НДС',
+            'total_price' => 'Всего стоимость реализации',
+            'excise_rate' => 'Ставка Акциз',
+            'excise_sum' => 'Сумма Акциз',
         ];
     }
 }

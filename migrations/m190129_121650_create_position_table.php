@@ -22,6 +22,7 @@ class m190129_121650_create_position_table extends Migration
             'unit' => $this->integer()->notNull(),
             'quantity' => $this->double()->notNull(),
             'price' => $this->double()->notNull(),
+            'total_price_without_tax' => $this->double()->notNull(),
             'tax_rate' => $this->double()->notNull(),
             'tax_sum' => $this->double()->notNull(),
             'total_price' => $this->double()->notNull(),

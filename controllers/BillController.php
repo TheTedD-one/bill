@@ -58,13 +58,16 @@ class BillController extends BaseController
     {
         $billModel = $this->findModel($bill_id);
 
-        $searchModel = new PositionSearch();;
+        $searchModel = new PositionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $bill_id);
+
+        $positionModel = new Position();
 
         return $this->render('view', [
             'billModel' => $billModel,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'positionModel' => $positionModel,
         ]);
     }
 
