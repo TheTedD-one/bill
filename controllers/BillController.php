@@ -73,21 +73,25 @@ class BillController extends BaseController
 
     public function actionCreatePosition()
     {
-        $position = new Position();
-
-        $position->bill_id = 1;
-        $position->name = 'asd';
-        $position->unit = 1;
-        $position->quantity = 1;
-        $position->price = 1;
-        $position->tax_rate = 1;
-        $position->tax_sum = 1;
-        $position->total_price = 1;
-        $position->excise_rate = 1;
-        $position->excise_sum = 1;
-
-        $position->save();
-        return $this->redirect(Yii::$app->request->referrer);
+        echo '<pre>';
+        print_r(Yii::$app->request->post());
+        echo '</pre>';
+        die;
+//        $position = new Position();
+//
+//        $position->bill_id = 1;
+//        $position->name = 'asd';
+//        $position->unit = 1;
+//        $position->quantity = 1;
+//        $position->price = 1;
+//        $position->tax_rate = 1;
+//        $position->tax_sum = 1;
+//        $position->total_price = 1;
+//        $position->excise_rate = 1;
+//        $position->excise_sum = 1;
+//
+//        $position->save();
+//        return $this->redirect(Yii::$app->request->referrer);
     }
 
     protected function findModel($id)

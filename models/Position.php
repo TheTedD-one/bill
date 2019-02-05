@@ -111,4 +111,13 @@ class Position extends BaseModel implements RemovableInterface
             'excise_sum' => 'Сумма Акциз',
         ];
     }
+
+    public static function getUnitList()
+    {
+        return [
+            self::UNIT_PIECE => 'шт.',
+            self::UNIT_KILOGRAM => 'кг.',
+            self::UNIT_LITER => 'л.',
+        ];
+    }
 }

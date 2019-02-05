@@ -3,7 +3,7 @@
 use yii\bootstrap\ActiveForm;
 
 $form = ActiveForm::begin([
-    'options' => ['class' => 'form-horizontal'],
+    'options' => ['class' => 'form-horizontal', 'id' => 'position-form'],
 ]);
 
 $positionModel->bill_id = $billModel->id;
@@ -38,7 +38,7 @@ $positionModel->excise_sum = '0.00';
                     </div>
 
                     <div class="col-md-4">
-                        <?= $form->field($positionModel, 'unit') ?>
+                        <?= $form->field($positionModel, 'unit')->dropDownList(\app\models\Position::getUnitList()) ?>
                     </div>
                     <div class="col-md-4">
                         <?= $form->field($positionModel, 'quantity')->textInput(['type' => 'number']) ?>
@@ -82,8 +82,8 @@ $positionModel->excise_sum = '0.00';
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-success btn-rounded"><i class="icon-plus-circle2 position-left"></i>Добавить</button>
+        <button type="button" class="btn border-danger text-danger btn-flat btn-rounded" data-dismiss="modal"><i class="icon-cross2 position-left"></i>Закрыть</button>
     </div>
 </div>
 
@@ -120,7 +120,7 @@ $script = <<<JS
         function sumTotalPrice() {
             if(total_price_without_tax.val() && tax_sum.val()) {
                 var sum = Number(total_price_without_tax.val()) + Number(tax_sum.val());
-                total_price.val(sum);
+                total_price.val(sum.toFixed(2));
             }
         }
         
@@ -146,8 +146,35 @@ $script = <<<JS
             sumTotalPrice();
         });
     }
+    
+    function formSubmit() {
+        $('#position-form').on('beforeSubmit', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var disabled = $(this).find(':input:disabled').removeAttr('disabled');
+            var data = $(this).serialize();
+            disabled.attr('disabled','disabled');
+            
+            $.ajax({
+                url: 'create-position',
+                type: 'POST',
+                data: data,
+                success: function(res){
+                    console.log(res);
+                },
+                error: function(){
+                    alert('Error!');
+                }
+            });
+            
+            return false;
+        });
+    }
+    
     $(document).ready(function() {
        formInit();
+       formSubmit();
     });
 JS;
 
