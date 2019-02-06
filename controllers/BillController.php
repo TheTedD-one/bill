@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\exceptions\RepositoryNotFoundException;
+use app\exceptions\ValidationException;
 use app\helpers\FlashHelper;
 use app\models\Position;
 use app\models\PositionSearch;
 use Yii;
 use app\models\Bill;
 use app\models\BillSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -31,10 +34,12 @@ class BillController extends BaseController
 
     public function actionIndex()
     {
+        $model = new Bill();
         $searchModel = new BillSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -73,25 +78,42 @@ class BillController extends BaseController
 
     public function actionCreatePosition()
     {
-        echo '<pre>';
-        print_r(Yii::$app->request->post());
-        echo '</pre>';
-        die;
-//        $position = new Position();
-//
-//        $position->bill_id = 1;
-//        $position->name = 'asd';
-//        $position->unit = 1;
-//        $position->quantity = 1;
-//        $position->price = 1;
-//        $position->tax_rate = 1;
-//        $position->tax_sum = 1;
-//        $position->total_price = 1;
-//        $position->excise_rate = 1;
-//        $position->excise_sum = 1;
-//
-//        $position->save();
-//        return $this->redirect(Yii::$app->request->referrer);
+        try {
+            $model = new Position();
+            if($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+                return true;
+            } else {
+                throw new ValidationException();
+            }
+        } catch(\Exception $e) {
+            return false;
+        }
+    }
+
+    public function actionUpdatePosition($id)
+    {
+        try {
+            $model = $this->findPositionModel($id);
+            if($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+                return true;
+            } else {
+                throw new ValidationException();
+            }
+        } catch(\Exception $e) {
+            return false;
+        }
+    }
+
+    public function actionGetPositionModel($id) {
+        try {
+            $model = $this->findPositionModel($id);
+            return Json::encode($model);
+        } catch(\Exception $e) {
+            return false;
+        }
+
     }
 
     protected function findModel($id)
@@ -101,6 +123,20 @@ class BillController extends BaseController
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findPositionModel($id)
+    {
+        $model = Position::find()
+            ->where('id=:id', [':id' => $id])
+            ->andWhere('is_deleted=:is_deleted', [':is_deleted' => Position::NOT_DELETED])
+            ->one();
+
+        if ($model !== null) {
+            return $model;
+        }
+
+        throw new RepositoryNotFoundException();
     }
 
 

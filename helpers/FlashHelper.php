@@ -37,11 +37,11 @@ class FlashHelper
 
     private static function getSuccessMessage()
     {
-        return 'Успех';
+        return 'Операция прошла успешно';
     }
 
     private static function getErrorMessage()
     {
-        return 'Неудача';
+        return 'Операция завершилась с ошибкой';
     }
 }

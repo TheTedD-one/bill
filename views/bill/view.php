@@ -17,43 +17,69 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading">
         <h5 class="panel-title">Счета<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
         <div class="heading-elements">
-            <?= Html::a('Добавить позицию', ['create-position'], ['class' => 'btn btn-success']) ?>
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#position_form_modal">Добавить позицию</button>
         </div>
     </div>
 
     <div class="panel-body">
         <div class="bill-index">
-            <?php Pjax::begin(); ?>
+            <?php Pjax::begin([ 'id' => 'pjax-position-list']); ?>
 
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
+                'layout' => "{summary}\n{items}\n<div class='grid-pagination' align='right'>{pager}</div>",
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
                     [
-                        'attribute' => 'id',
+                        'attribute' => 'name',
                         'enableSorting' => false
                     ],
                     [
-                        'attribute' => 'is_deleted',
+                        'attribute' => 'unit',
                         'enableSorting' => false
                     ],
                     [
-                        'attribute' => 'created_date',
+                        'attribute' => 'quantity',
                         'enableSorting' => false
                     ],
                     [
-                        'attribute' => 'modified_date',
+                        'attribute' => 'price',
                         'enableSorting' => false
                     ],
                     [
-                        'attribute' => 'bill_id',
+                        'attribute' => 'total_price_without_tax',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'tax_rate',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'tax_sum',
+                        'enableSorting' => false
+                    ],
+                    [
+                        'attribute' => 'total_price',
                         'enableSorting' => false
                     ],
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'class' => '\yii\grid\ActionColumn',
+                        'template' => '{edit}',
+                        'buttons' => [
+                            'edit' => function($url, $model) {
+                                return Html::a(
+                                    '<i class="icon-pencil"></i>',
+                                    '#',
+                                    [
+                                        'class' => 'list-icons-item update-button',
+                                        'attr-id' => $model->id
+                                    ]
+                                );
+                            }
+                        ]
+                    ],
                 ],
             ]); ?>
             <?php Pjax::end(); ?>
@@ -63,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div id="position_form_modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
-        <?= $this->render('components/_position-create-form', [
+        <?= $this->render('components/_position-form', [
             'positionModel' => $positionModel,
             'billModel' => $billModel,
         ]); ?>

@@ -13,6 +13,11 @@ $menu = [
         'url' => ['bill/index'],
     ],
     [
+        'label' => 'Реквизиты',
+        'template' => '<a href="{url}" class="nav-link"><i class="icon-file-check"></i><span>{label}</span></a>',
+        'url' => ['requisites/index'],
+    ],
+    [
         'label' => 'Тест',
         'options' => ['class' => 'nav-item nav-item-submenu'],
         'template' => '<a href="#" class="nav-link"><i class="icon-stack"></i><span>{label}</span></a>',

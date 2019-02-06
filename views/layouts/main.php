@@ -99,7 +99,7 @@ if (Yii::$app->session->hasFlash('success')) {
                 progressBar: false,
                 closeWith: ['button'],
                 layout: 'topRight',
-                timeout: false
+                timeout: 5000
             }).show();
         });
 JS;

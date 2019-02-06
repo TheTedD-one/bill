@@ -82,7 +82,7 @@ $positionModel->excise_sum = '0.00';
     </div>
 
     <div class="modal-footer">
-        <button type="submit" class="btn btn-success btn-rounded"><i class="icon-plus-circle2 position-left"></i>Добавить</button>
+        <button type="submit" class="btn btn-success btn-rounded position-submit-button"><i class="icon-plus-circle2 position-left"></i>Добавить</button>
         <button type="button" class="btn border-danger text-danger btn-flat btn-rounded" data-dismiss="modal"><i class="icon-cross2 position-left"></i>Закрыть</button>
     </div>
 </div>
@@ -145,6 +145,11 @@ $script = <<<JS
             sumTax();
             sumTotalPrice();
         });
+        
+        $('#position_form_modal').on('show.bs.modal', function() {
+           formReset();
+           $('.position-submit-button').attr('attr-model-id', '');
+        });
     }
     
     function formSubmit() {
@@ -156,25 +161,162 @@ $script = <<<JS
             var data = $(this).serialize();
             disabled.attr('disabled','disabled');
             
-            $.ajax({
-                url: 'create-position',
-                type: 'POST',
-                data: data,
-                success: function(res){
-                    console.log(res);
-                },
-                error: function(){
-                    alert('Error!');
-                }
-            });
+            if($('.position-submit-button').attr('attr-model-id')) {
+                $.ajax({
+                    url: 'update-position?id=' + $('.position-submit-button').attr('attr-model-id'),
+                    type: 'POST',
+                    data: data,
+                    success: function(res) {
+                        if (res) {
+                            $('#position_form_modal').modal('hide');
+                            $.pjax.reload({container: '#pjax-position-list'});
+                            successNoty();
+                        } else {
+                            errorNoty();
+                        }
+                    },
+                    error: function(){
+                        errorNoty();
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: 'create-position',
+                    type: 'POST',
+                    data: data,
+                    success: function(res) {
+                        if (res) {
+                            $('#position_form_modal').modal('hide');
+                            $.pjax.reload({container: '#pjax-position-list'});
+                            successNoty();
+                        } else {
+                            errorNoty();
+                        }
+                    },
+                    error: function(){
+                        errorNoty();
+                    }
+                });
+            }
+            
             
             return false;
         });
     }
     
+    function getForm() {
+        $('.update-button').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var id = $(this).attr('attr-id');
+           
+            $.ajax({
+                url: 'get-position-model?id=' + id,
+                type: 'GET',
+                success: function(res) {
+                    if (res) {
+                        $('#position_form_modal').modal('show');
+                        fillForm(JSON.parse(res));
+                        $('.position-submit-button').attr('attr-model-id', JSON.parse(res).id);
+                    } else {
+                        errorNoty();
+                    }
+                },
+                error: function(){
+                    errorNoty();
+                }
+            });
+        })
+    }
+    
+    function formReset() {
+        var name = $('#position-name');
+        var unit = $('#position-unit');
+        var quantity = $('#position-quantity');
+        var price = $('#position-price');
+        var total_price_without_tax = $('#position-total_price_without_tax');
+        var tax_rate = $('#position-tax_rate');
+        var tax_sum = $('#position-tax_sum');
+        var total_price = $('#position-total_price');
+        var excise_rate = $('#position-excise_rate');
+        var excise_sum = $('#position-excise_sum');
+        
+        name.val('');
+        quantity.val('');
+        price.val('');
+        total_price_without_tax.val('');
+        total_price.val('');
+
+        tax_rate.val('0');
+        tax_sum.val('0.00');
+
+        excise_rate.val('0');
+        excise_sum.val('0.00');
+        
+        $('.form-group.has-success').each(function(){
+            $(this).removeClass('has-success');
+        });
+        
+        // toDo reset unit
+    }
+    
+    function fillForm(model) {
+        var name = $('#position-name');
+        var unit = $('#position-unit');
+        var quantity = $('#position-quantity');
+        var price = $('#position-price');
+        var total_price_without_tax = $('#position-total_price_without_tax');
+        var tax_rate = $('#position-tax_rate');
+        var tax_sum = $('#position-tax_sum');
+        var total_price = $('#position-total_price');
+        var excise_rate = $('#position-excise_rate');
+        var excise_sum = $('#position-excise_sum');
+        
+        name.val(model.name);
+        quantity.val(model.quantity);
+        price.val(model.price);
+        total_price_without_tax.val(model.total_price_without_tax);
+        tax_rate.val(model.tax_rate);
+        tax_sum.val(model.tax_sum);
+        total_price.val(model.total_price);
+        excise_rate.val(model.excise_rate);
+        excise_sum.val(model.excise_sum);
+                
+        // toDo add unit
+    }
+    
+    function successNoty(message = 'Операция прошла успешно') {
+        new Noty({
+            theme: ' alert alert-success alert-styled-left p-0 bg-white',
+            text: message,
+            type: 'success',
+            progressBar: false,
+            closeWith: ['button'],
+            layout: 'topRight',
+            timeout: 5000
+        }).show();
+    }
+    
+    function errorNoty(message = 'Операция завершилась с ошибкой') {
+        new Noty({
+            theme: ' alert alert-danger alert-styled-left p-0',
+            text: message,
+            type: 'error',
+            progressBar: false,
+            closeWith: ['button'],
+            layout: 'topRight',
+            timeout: false
+        }).show();
+    }
+
     $(document).ready(function() {
        formInit();
        formSubmit();
+       getForm();
+       
+       $(document).on('pjax:success', function() {
+           getForm();
+       });
     });
 JS;
 

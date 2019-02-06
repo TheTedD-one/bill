@@ -39,6 +39,7 @@ class Position extends BaseModel implements RemovableInterface
         return [
             [
                 [
+                    'id',
                     'is_deleted',
                     'bill_id',
                     'unit'
