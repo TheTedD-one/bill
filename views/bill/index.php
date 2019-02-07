@@ -7,8 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\BillSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Bills';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Счета';
 ?>
 
 
@@ -23,28 +22,32 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="panel-body">
         <div class="bill-index">
-            <?php Pjax::begin(); ?>
+            <?php Pjax::begin([ 'id' => 'pjax-bill-list']); ?>
 
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'columns' => [
-                    //['class' => 'yii\grid\SerialColumn'],
-
                     [
                         'attribute' => 'id',
+                        'label' => 'Счет №',
                         'enableSorting' => false
                     ],
                     [
-                        'attribute' => 'is_deleted',
-                        'enableSorting' => false
+                        'label' => 'Получатель',
+                        'value' => function ($model) {
+                            return $model->customer->name . ' (БИН: ' . $model->customer->bin . ')';
+                        }
                     ],
                     [
                         'attribute' => 'created_date',
+                        'label' => 'Дата',
                         'enableSorting' => false
                     ],
                     [
-                        'attribute' => 'modified_date',
-                        'enableSorting' => false
+                        'label' => 'Кол-во позиций',
+                        'value' => function ($model) {
+                            return $model->positionCount;
+                        }
                     ],
 
                     [
@@ -78,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-<div id="bill_form_modal" class="modal fade" tabindex="-1">
+<div id="bill_form_modal" class="modal fade">
     <div class="modal-dialog">
         <?= $this->render('components/_bill-form', [
             'model' => $model,

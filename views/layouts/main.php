@@ -4,6 +4,7 @@ use app\helpers\FlashHelper;
 use yii\helpers\Html;
 use app\assets\AppAsset;
 use yii\helpers\Json;
+use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
 ?>
@@ -49,15 +50,18 @@ AppAsset::register($this);
             <div class="page-header page-header-default">
                 <div class="page-header-content">
                     <div class="page-title">
-                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Dashboard</h4>
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold"><?= $this->title ?></span></h4>
                     </div>
                 </div>
 
                 <div class="breadcrumb-line">
-                    <ul class="breadcrumb">
-                        <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
-                        <li class="active">Dashboard</li>
-                    </ul>
+                    <?= Breadcrumbs::widget([
+                        'homeLink' => [
+                            'label' => 'Счета',
+                            'url' => '/',
+                        ],
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    ]) ?>
                 </div>
             </div>
             <!-- /page header -->

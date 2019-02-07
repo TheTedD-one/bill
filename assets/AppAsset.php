@@ -33,10 +33,16 @@ class AppAsset extends AssetBundle
         'js/plugins/pace.min.js',
         'js/core/bootstrap.min.js',
         'js/plugins/blockui.min.js',
+        'js/core/interactions.min.js',
         'js/core/app.js',
 
         //noty
         'js/plugins/notifications/noty.min.js',
+        //select2
+        'js/plugins/select2.min.js',
+
+        //custom
+        'js/index.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -7,15 +7,37 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Bills', 'url' => ['index']];
+$this->title = 'Счет №' . $billModel->id;
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">Информация о счете<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Поставщик</h6>
+            </div>
+            <div class="col-md-6">
+                <h6>Получатель</h6>
+                <span class="text-size-small text-muted">Наименование: </span><span class="text-size-small"><?= $billModel->customer->name ?></span><br>
+                <span class="text-size-small text-muted">БИН: </span><span class="text-size-small"><?= $billModel->customer->bin ?></span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="panel panel-flat">
     <div class="panel-heading">
-        <h5 class="panel-title">Счета<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+        <h5 class="panel-title">Позиции<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
         <div class="heading-elements">
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#position_form_modal">Добавить позицию</button>
         </div>

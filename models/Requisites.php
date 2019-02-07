@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\exceptions\RepositoryNotFoundException;
 use app\interfaces\RemovableInterface;
 use Yii;
 
@@ -20,6 +21,8 @@ use Yii;
  */
 class Requisites extends BaseModel implements RemovableInterface
 {
+    const MY_REQUISITES = 1;
+    const ALL_REQUISITES = 0;
     /**
      * {@inheritdoc}
      */
@@ -83,5 +86,42 @@ class Requisites extends BaseModel implements RemovableInterface
             'address' => 'Адрес',
             'isMe' => 'Мои реквизиты',
         ];
+    }
+
+    public static function getMyDetails()
+    {
+        $details = self::find()
+            ->where('is_deleted=:is_deleted', [':is_deleted' => self::NOT_DELETED])
+            ->andWhere('isMe=:isMe', [':isMe' => self::MY_REQUISITES])
+            ->asArray()
+            ->all();
+
+        return $details;
+    }
+
+    public static function getAllDetails()
+    {
+        $details = self::find()
+            ->where('is_deleted=:is_deleted', [':is_deleted' => self::NOT_DELETED])
+            ->asArray()
+            ->all();
+
+        return $details;
+    }
+
+    public static function getSelectDetails($isMe = self::ALL_REQUISITES)
+    {
+        if ($isMe === self::MY_REQUISITES) {
+            $details = self::getMyDetails();
+        } else {
+            $details = self::getAllDetails();
+        }
+
+        $data = [];
+        foreach($details as $item) {
+            $data[$item['id']] = $item['name'] . ' (БИН: ' . $item['bin'] . ')';
+        }
+
+        return $data;
     }
 }

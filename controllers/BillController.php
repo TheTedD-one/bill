@@ -11,7 +11,7 @@ use Yii;
 use app\models\Bill;
 use app\models\BillSearch;
 use yii\helpers\Json;
-use yii\web\Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -49,13 +49,14 @@ class BillController extends BaseController
     {
         try {
             $model = new Bill();
-            $model->save();
-
-            FlashHelper::setFlash(FlashHelper::TYPE_SUCCESS);
-            return $this->redirect(['view', 'bill_id' => $model->id]);
+            if($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+                return $this->redirect(Url::to(['view', 'bill_id' => $model->id]));
+            } else {
+                throw new ValidationException();
+            }
         } catch(\Exception $e) {
-            FlashHelper::setFlash(FlashHelper::TYPE_ERROR);
-            return $this->redirect(['index']);
+            return false;
         }
     }
 
