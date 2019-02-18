@@ -60,6 +60,21 @@ class BillController extends BaseController
         }
     }
 
+    public function actionUpdateBill($id)
+    {
+        try {
+            $model = $this->findModel($id);
+            if($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+                return true;
+            } else {
+                throw new ValidationException();
+            }
+        } catch(\Exception $e) {
+            return false;
+        }
+    }
+
     public function actionView($bill_id)
     {
         $billModel = $this->findModel($bill_id);
@@ -107,6 +122,15 @@ class BillController extends BaseController
         }
     }
 
+    public function actionGetBillModel($id) {
+        try {
+            $model = $this->findModel($id);
+            return Json::encode($model);
+        } catch(\Exception $e) {
+            return false;
+        }
+    }
+
     public function actionGetPositionModel($id) {
         try {
             $model = $this->findPositionModel($id);
@@ -119,11 +143,16 @@ class BillController extends BaseController
 
     protected function findModel($id)
     {
-        if (($model = Bill::findOne($id)) !== null) {
+        $model = Bill::find()
+            ->where('id=:id', [':id' => $id])
+            ->andWhere('is_deleted=:is_deleted', [':is_deleted' => Bill::NOT_DELETED])
+            ->one();
+
+        if ($model !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new RepositoryNotFoundException();
     }
 
     protected function findPositionModel($id)
@@ -139,41 +168,4 @@ class BillController extends BaseController
 
         throw new RepositoryNotFoundException();
     }
-
-
-    /**
-     * Updates an existing Bill model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Bill model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-
 }

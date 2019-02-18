@@ -11,7 +11,7 @@ $this->title = 'Счет №' . $billModel->id;
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="panel panel-flat">
+<div class="panel panel-white panel-collapsed">
     <div class="panel-heading">
         <h5 class="panel-title">Информация о счете<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
         <div class="heading-elements">
@@ -24,12 +24,157 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-body">
         <div class="row">
             <div class="col-md-6">
-                <h6>Поставщик</h6>
+                <ul class="media-list media-list-bordered">
+                    <li class="media-header">Поставщик</li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Наименование: </span><span class="text-size-small"><?= $billModel->me->name ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИН: </span><span class="text-size-small"><?= $billModel->me->bin ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->me->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Адрес: </span><span class="text-size-small"><?= $billModel->me->address ?></span>
+                        </div>
+                    </li>
+
+                    <li class="media-header">Грузоотправитель</li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Наименование: </span><span class="text-size-small"><?= $billModel->sender->name ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИН: </span><span class="text-size-small"><?= $billModel->sender->bin ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->sender->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Адрес: </span><span class="text-size-small"><?= $billModel->sender->address ?></span>
+                        </div>
+                    </li>
+                </ul>
             </div>
             <div class="col-md-6">
-                <h6>Получатель</h6>
-                <span class="text-size-small text-muted">Наименование: </span><span class="text-size-small"><?= $billModel->customer->name ?></span><br>
-                <span class="text-size-small text-muted">БИН: </span><span class="text-size-small"><?= $billModel->customer->bin ?></span>
+                <ul class="media-list media-list-bordered">
+                    <li class="media-header">Получатель</li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Наименование: </span><span class="text-size-small"><?= $billModel->customer->name ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИН: </span><span class="text-size-small"><?= $billModel->customer->bin ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->customer->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Адрес: </span><span class="text-size-small"><?= $billModel->customer->address ?></span>
+                        </div>
+                    </li>
+
+                    <li class="media-header">Грузополучатель</li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Наименование: </span><span class="text-size-small"><?= $billModel->recipient->name ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИН: </span><span class="text-size-small"><?= $billModel->recipient->bin ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->recipient->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Адрес: </span><span class="text-size-small"><?= $billModel->recipient->address ?></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="media-list media-list-bordered">
+                    <li class="media-header">Оплата и доставка</li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Договор на поставку: </span><span class="text-size-small"><?= $billModel->contract_type ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Условия оплаты: </span><span class="text-size-small"><?= $billModel->payment_type ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Способ отправления: </span><span class="text-size-small"><?= $billModel->delivery_type ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Пункт назначения: </span><span class="text-size-small"><?= $billModel->delivery_point ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Довереность на поставку товаров: </span><span class="text-size-small"><?= $billModel->delivery_document ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">Товарно-транспортная накладная: </span><span class="text-size-small"><?= $billModel->transport_document ?></span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

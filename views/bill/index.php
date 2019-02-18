@@ -68,7 +68,8 @@ $this->title = 'Счета';
                                     '<i class="icon-pencil"></i>',
                                     '#',
                                     [
-                                        'class' => 'list-icons-item',
+                                        'class' => 'list-icons-item update-button',
+                                        'attr-id' => $model->id
                                     ]
                                 );
                             }

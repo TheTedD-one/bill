@@ -94,8 +94,20 @@ class Bill extends BaseModel implements RemovableInterface
         ];
     }
 
+    public function getMe() {
+        return $this->hasOne(Requisites::className(), ['id' => 'my_requisites_id']);
+    }
+
     public function getCustomer() {
         return $this->hasOne(Requisites::className(), ['id' => 'customer_requisites_id']);
+    }
+
+    public function getSender() {
+        return $this->hasOne(Requisites::className(), ['id' => 'sender_requisites_id']);
+    }
+
+    public function getRecipient() {
+        return $this->hasOne(Requisites::className(), ['id' => 'recipient_requisites_id']);
     }
 
     public function getPositionCount() {

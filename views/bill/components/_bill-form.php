@@ -11,7 +11,7 @@ $form = ActiveForm::begin([
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h5 class="modal-title">Создать новый счет</h5>
+            <h5 class="modal-title modal-title-js">Создать новый счет</h5>
         </div>
 
         <div class="modal-body">
@@ -75,7 +75,7 @@ $form = ActiveForm::begin([
                                 <?=
                                 $form->field($model, 'payment_type')->dropDownList(
                                     \app\models\Bill::getPaymentTypes(),
-                                    ['id' => 'select2-me',  'class' => 'form-control select2']
+                                    ['id' => 'select2-payment_type',  'class' => 'form-control select2']
                                 );
                                 ?>
                             </div>
@@ -150,6 +150,11 @@ $script = <<<JS
                  $('#select2-recipient').val($(this).val()).trigger('change');
              }
         });
+        
+        $('#bill_form_modal').on('show.bs.modal', function() {
+           formReset();
+           $('.bill-submit-button').attr('attr-model-id', '');
+        });
     }
 
     function formSubmit() {
@@ -161,19 +166,120 @@ $script = <<<JS
             var data = $(this).serialize();
             disabled.attr('disabled','disabled');
             
-            $.ajax({
-                url: 'bill/create-bill',
-                type: 'POST',
-                data: data,
-            });
+            if($('.bill-submit-button').attr('attr-model-id')) {
+                $.ajax({
+                    url: '/bill/update-bill?id=' + $('.bill-submit-button').attr('attr-model-id'),
+                    type: 'POST',
+                    data: data,
+                    success: function(res) {
+                        if (res) {
+                            $('#bill_form_modal').modal('hide');
+                            $.pjax.reload({container: '#pjax-bill-list'});
+                            successNoty();
+                        } else {
+                            errorNoty();
+                        }
+                    },
+                    error: function(){
+                        errorNoty();
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: 'bill/create-bill',
+                    type: 'POST',
+                    data: data,
+                });
+            }
             
             return false;
         });
     }
     
+    function getForm() {
+        $('.update-button').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var id = $(this).attr('attr-id');
+           
+            $.ajax({
+                url: '/bill/get-bill-model?id=' + id,
+                type: 'GET',
+                success: function(res) {
+                    if (res) {
+                        $('#bill_form_modal').modal('show');
+                        fillForm(JSON.parse(res));
+                        $('.bill-submit-button').attr('attr-model-id', JSON.parse(res).id);
+                    } else {
+                        errorNoty();
+                    }
+                },
+                error: function(){
+                    errorNoty();
+                }
+            });
+        })
+    }
+    
+    function fillForm(model) {
+        if(model.my_requisites_id !== model.sender_requisites_id) {
+            $("#sender-checkbox").prop("checked", false).trigger('change');
+            $('#select2-sender').val(model.sender_requisites_id).trigger('change');
+        } else {
+            $("#sender-checkbox").prop("checked", true).trigger('change');
+        }
+        
+        if(model.customer_requisites_id !== model.recipient_requisites_id) {
+            $("#recipient-checkbox").prop("checked", false).trigger('change');
+            $('#select2-customer').val(model.customer_requisites_id).trigger('change');
+            $('#select2-recipient').val(model.recipient_requisites_id).trigger('change');
+        } else {
+            $("#recipient-checkbox").prop("checked", true).trigger('change');
+            $('#select2-customer').val(model.customer_requisites_id).trigger('change');
+        }
+        
+        $('#select2-payment_type').val(model.payment_type).trigger('change');
+        $('#bill-contract_type').val(model.contract_type);
+        $('#bill-delivery_type').val(model.delivery_type);
+        $('#bill-delivery_point').val(model.delivery_point);
+        $('#bill-delivery_document').val(model.delivery_document);
+        $('#bill-transport_document').val(model.transport_document);
+        
+        $('.bill-submit-button').html('<i class="icon-pencil position-left"></i>Редактировать');
+        $('.modal-title-js').html('Редактирование счета');
+    }
+    
+    function formReset() {
+        $("#sender-checkbox").prop("checked", true).trigger('change');
+        $("#recipient-checkbox").prop("checked", true).trigger('change');
+        
+        $('#select2-customer').val('1').trigger('change');
+        $('#select2-recipient').val('1').trigger('change');
+        $('#select2-sender').val('1').trigger('change');
+        
+        $('#select2-payment_type').val('Безналичный расчет').trigger('change');
+        $('#bill-contract_type').val('');
+        $('#bill-delivery_type').val('');
+        $('#bill-delivery_point').val('');
+        $('#bill-delivery_document').val('');
+        $('#bill-transport_document').val('');
+        
+        $('.form-group.has-success').each(function(){
+            $(this).removeClass('has-success');
+        });
+        
+        $('.bill-submit-button').html('<i class="icon-plus-circle2 position-left"></i>Добавить');
+        $('.modal-title-js').html('Создать новый счет');
+    }
+    
     $(document).ready(function() {
         formInit();
         formSubmit();
+        getForm();
+        
+        $(document).on('pjax:success', function() {
+           getForm();
+       });
     });
 JS;
 

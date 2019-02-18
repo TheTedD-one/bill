@@ -17,7 +17,7 @@ $positionModel->excise_sum = '0.00';
 <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h5 class="modal-title">Добавить позицию</h5>
+        <h5 class="modal-title modal-title-js">Добавить позицию</h5>
     </div>
 
     <div class="modal-body">
@@ -242,6 +242,7 @@ $script = <<<JS
         var excise_sum = $('#position-excise_sum');
         
         name.val('');
+        unit.val(1).trigger('change');
         quantity.val('');
         price.val('');
         total_price_without_tax.val('');
@@ -257,10 +258,12 @@ $script = <<<JS
             $(this).removeClass('has-success');
         });
         
-        // toDo reset unit
+        $('.position-submit-button').html('<i class="icon-plus-circle2 position-left"></i>Добавить');
+        $('.modal-title-js').html('Добавить позицию');
     }
     
     function fillForm(model) {
+        console.log(model);
         var name = $('#position-name');
         var unit = $('#position-unit');
         var quantity = $('#position-quantity');
@@ -273,6 +276,7 @@ $script = <<<JS
         var excise_sum = $('#position-excise_sum');
         
         name.val(model.name);
+        unit.val(model.unit).trigger('change');
         quantity.val(model.quantity);
         price.val(model.price);
         total_price_without_tax.val(model.total_price_without_tax);
@@ -281,8 +285,9 @@ $script = <<<JS
         total_price.val(model.total_price);
         excise_rate.val(model.excise_rate);
         excise_sum.val(model.excise_sum);
-                
-        // toDo add unit
+        
+        $('.position-submit-button').html('<i class="icon-pencil position-left"></i>Редактировать');
+        $('.modal-title-js').html('Редактирование позиции');
     }
     
     $(document).ready(function() {

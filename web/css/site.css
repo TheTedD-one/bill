@@ -10,3 +10,16 @@
 .grid-icons {
     margin-right: 5px;
 }
+
+.bill-info-title {
+    margin-bottom: 0;
+}
+
+.media-list-bordered>li {
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.media-list-bordered>li.media-header {
+    padding-top: 10px;
+}
