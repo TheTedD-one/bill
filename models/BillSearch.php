@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Bill;
@@ -16,16 +17,10 @@ class BillSearch extends Bill
         return [
             [
                 [
+                    'id',
                     'is_deleted'
                 ],
                 'integer'
-            ],
-            [
-                [
-                    'created_date',
-                    'modified_date'
-                ],
-                'safe'
             ],
         ];
     }
@@ -41,6 +36,9 @@ class BillSearch extends Bill
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['pageSize'],
+            ]
         ]);
 
         $this->load($params);

@@ -26,6 +26,10 @@ $this->title = 'Счета';
 
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
+                'options' => [
+                    'class' => 'grid-view table-responsive'
+                ],
+                'layout' => "{summary}\n{items}\n<div class='grid-pagination' align='right'>{pager}</div>",
                 'columns' => [
                     [
                         'attribute' => 'id',
@@ -52,7 +56,7 @@ $this->title = 'Счета';
 
                     [
                         'class' => '\yii\grid\ActionColumn',
-                        'template' => '{view}{edit}',
+                        'template' => '{view}{edit}{delete}',
                         'buttons' => [
                             'view' => function($url, $model) {
                                 return Html::a(
@@ -68,8 +72,20 @@ $this->title = 'Счета';
                                     '<i class="icon-pencil"></i>',
                                     '#',
                                     [
-                                        'class' => 'list-icons-item update-button',
+                                        'class' => 'list-icons-item update-button grid-icons',
                                         'attr-id' => $model->id
+                                    ]
+                                );
+                            },
+                            'delete' => function($url, $model) {
+                                return Html::a(
+                                    '<i class="icon-trash"></i>',
+                                    '#',
+                                    [
+                                        'class' => 'list-icons-item delete-button grid-icons',
+                                        'attr-id' => $model->id,
+                                        'attr-url' => '/bill/delete-bill',
+                                        'attr-pjax-id' => 'pjax-bill-list',
                                     ]
                                 );
                             }
@@ -89,3 +105,14 @@ $this->title = 'Счета';
         ]); ?>
     </div>
 </div>
+
+<?php
+$script = <<<JS
+    deleteAction();
+    $(document).on('pjax:success', function() {
+       deleteAction();
+    });
+JS;
+
+$this->registerJs($script);
+?>

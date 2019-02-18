@@ -279,7 +279,7 @@ $script = <<<JS
         
         $(document).on('pjax:success', function() {
            getForm();
-       });
+        });
     });
 JS;
 

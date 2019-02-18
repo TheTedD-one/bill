@@ -2,126 +2,96 @@
 
 namespace app\controllers;
 
+use app\exceptions\RepositoryNotFoundException;
+use app\exceptions\ValidationException;
 use Yii;
 use app\models\Requisites;
 use app\models\RequisitesSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
-/**
- * RequisitesController implements the CRUD actions for Requisites model.
- */
+
 class RequisitesController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
-        /**
-     * Lists all Requisites models.
-     * @return mixed
-     */
     public function actionIndex()
     {
+        $model = new Requisites();
         $searchModel = new RequisitesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    /**
-     * Displays a single Requisites model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    public function actionGetModel($id) {
+        try {
+            $model = $this->findModel($id);
+            return Json::encode($model);
+        } catch(\Exception $e) {
+            return false;
+        }
     }
 
-    /**
-     * Creates a new Requisites model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
-        $model = new Requisites();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        try {
+            $model = new Requisites();
+            if($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+                return true;
+            } else {
+                throw new ValidationException();
+            }
+        } catch(\Exception $e) {
+            return false;
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
-    /**
-     * Updates an existing Requisites model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        try {
+            $model = $this->findModel($id);
+            if($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+                return true;
+            } else {
+                throw new ValidationException();
+            }
+        } catch(\Exception $e) {
+            return false;
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
-    /**
-     * Deletes an existing Requisites model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        try {
+            $model = $this->findModel($id);
+            if($model->isMe) {
+                return false;
+            }
 
-        return $this->redirect(['index']);
+            $model->is_deleted = 1;
+            $model->save();
+            return true;
+        } catch(\Exception $e) {
+            return false;
+        }
     }
 
-    /**
-     * Finds the Requisites model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Requisites the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
-        if (($model = Requisites::findOne($id)) !== null) {
+        $model = Requisites::find()
+            ->where('id=:id', [':id' => $id])
+            ->andWhere('is_deleted=:is_deleted', [':is_deleted' => Requisites::NOT_DELETED])
+            ->one();
+
+        if ($model !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new RepositoryNotFoundException();
     }
 }

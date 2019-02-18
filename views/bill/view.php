@@ -194,6 +194,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
+                'options' => [
+                    'class' => 'grid-view table-responsive'
+                ],
                 'layout' => "{summary}\n{items}\n<div class='grid-pagination' align='right'>{pager}</div>",
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
@@ -233,15 +236,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     [
                         'class' => '\yii\grid\ActionColumn',
-                        'template' => '{edit}',
+                        'template' => '{edit}{delete}',
                         'buttons' => [
                             'edit' => function($url, $model) {
                                 return Html::a(
                                     '<i class="icon-pencil"></i>',
                                     '#',
                                     [
-                                        'class' => 'list-icons-item update-button',
+                                        'class' => 'list-icons-item update-button grid-icons',
                                         'attr-id' => $model->id
+                                    ]
+                                );
+                            },
+                            'delete' => function($url, $model) {
+                                return Html::a(
+                                    '<i class="icon-trash"></i>',
+                                    '#',
+                                    [
+                                        'class' => 'list-icons-item delete-button grid-icons',
+                                        'attr-id' => $model->id,
+                                        'attr-url' => '/bill/delete-position',
+                                        'attr-pjax-id' => 'pjax-position-list',
                                     ]
                                 );
                             }
@@ -262,3 +277,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
     </div>
 </div>
+
+<?php
+$script = <<<JS
+    deleteAction();
+    $(document).on('pjax:success', function() {
+       deleteAction();
+    });
+JS;
+
+$this->registerJs($script);
+?>

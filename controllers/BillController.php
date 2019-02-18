@@ -75,6 +75,18 @@ class BillController extends BaseController
         }
     }
 
+    public function actionDeleteBill($id)
+    {
+        try {
+            $model = $this->findModel($id);
+            $model->is_deleted = 1;
+            $model->save();
+            return true;
+        } catch(\Exception $e) {
+            return false;
+        }
+    }
+
     public function actionView($bill_id)
     {
         $billModel = $this->findModel($bill_id);
@@ -117,6 +129,18 @@ class BillController extends BaseController
             } else {
                 throw new ValidationException();
             }
+        } catch(\Exception $e) {
+            return false;
+        }
+    }
+
+    public function actionDeletePosition($id)
+    {
+        try {
+            $model = $this->findPositionModel($id);
+            $model->is_deleted = 1;
+            $model->save();
+            return true;
         } catch(\Exception $e) {
             return false;
         }

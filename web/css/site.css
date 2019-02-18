@@ -23,3 +23,9 @@
 .media-list-bordered>li.media-header {
     padding-top: 10px;
 }
+
+@media (max-width: 768px) {
+    .panel-flat .panel-heading .visible-elements {
+        padding-top: 20px;
+    }
+}

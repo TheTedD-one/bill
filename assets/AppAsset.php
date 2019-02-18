@@ -40,6 +40,8 @@ class AppAsset extends AssetBundle
         'js/plugins/notifications/noty.min.js',
         //select2
         'js/plugins/select2.min.js',
+        //swal
+        'js/plugins/notifications/sweet_alert.min.js',
 
         //custom
         'js/index.js'
