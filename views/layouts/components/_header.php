@@ -1,10 +1,11 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 
 <div class="navbar navbar-inverse">
     <div class="navbar-header">
-        <a class="navbar-brand" href="index.html"><?= Html::img('/images/logo_light.png'); ?></a>
+        <a class="navbar-brand" href="<?= Url::to(['/']) ?>"><?= Html::img('/images/logo_light.png'); ?></a>
 
         <ul class="nav navbar-nav visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -28,12 +29,7 @@ use yii\helpers\Html;
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="#"><i class="icon-coins"></i> My balance</a></li>
-                    <li><a href="#"><span class="badge bg-teal-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-                    <li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
+                    <li><a href="<?= Url::to('/site/logout') ?>"><i class="icon-switch2"></i> Выйти</a></li>
                 </ul>
             </li>
         </ul>

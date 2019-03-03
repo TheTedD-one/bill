@@ -110,7 +110,14 @@ class Bill extends BaseModel implements RemovableInterface
         return $this->hasOne(Requisites::className(), ['id' => 'recipient_requisites_id']);
     }
 
+    public function getPosition() {
+        return $this->hasMany(Position::className(), ['bill_id' => 'id'])
+            ->where('is_deleted=:is_deleted', [':is_deleted' => Position::NOT_DELETED])
+            ->orderBy('id ASC');
+    }
+
     public function getPositionCount() {
-        return $this->hasMany(Position::className(), ['bill_id' => 'id'])->where('is_deleted=:is_deleted', [':is_deleted' => Position::NOT_DELETED])->count();
+        return $this->hasMany(Position::className(), ['bill_id' => 'id'])
+            ->where('is_deleted=:is_deleted', [':is_deleted' => Position::NOT_DELETED])->count();
     }
 }

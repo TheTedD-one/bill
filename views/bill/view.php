@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
@@ -184,6 +185,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading">
         <h5 class="panel-title">Позиции<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
         <div class="heading-elements">
+            <a href="<?= Url::to(['/pdf/invoice', 'id' => $billModel->id]) ?>"
+               class="btn btn-primary"
+               target="_blank"
+            >
+                Счет-фактура
+            </a>
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#position_form_modal">Добавить позицию</button>
         </div>
     </div>

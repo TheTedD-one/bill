@@ -3,25 +3,33 @@
 /* @var $this yii\web\View */
 /* @var $name string */
 /* @var $message string */
+
 /* @var $exception Exception */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = $name;
+Yii::$app->layout = 'service';
 ?>
-<div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
-    </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
+<!-- Error title -->
+<div class="text-center content-group">
+    <h1 class="error-title"><?= Html::encode($exception->statusCode) ?></h1>
+    <h5><?= nl2br(Html::encode($message)) ?></h5>
 </div>
+<!-- /error title -->
+
+
+<!-- Error content -->
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="<?= Url::to('/') ?>" class="btn btn-primary btn-block content-group"><i
+                            class="icon-circle-left2 position-left"></i> На главную</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /error wrapper -->

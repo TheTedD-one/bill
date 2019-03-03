@@ -41,10 +41,10 @@ $positionModel->excise_sum = '0.00';
                         <?= $form->field($positionModel, 'unit')->dropDownList(\app\models\Position::getUnitList()) ?>
                     </div>
                     <div class="col-md-4">
-                        <?= $form->field($positionModel, 'quantity')->textInput(['type' => 'number']) ?>
+                        <?= $form->field($positionModel, 'quantity')->textInput(['type' => 'number', 'step' => 'any']) ?>
                     </div>
                     <div class="col-md-4">
-                        <?= $form->field($positionModel, 'price')->textInput(['type' => 'number']) ?>
+                        <?= $form->field($positionModel, 'price')->textInput(['type' => 'number', 'step' => 'any']) ?>
                     </div>
 
                     <div class="col-md-6">
@@ -62,7 +62,7 @@ $positionModel->excise_sum = '0.00';
             <legend class="text-bold">НДС</legend>
 
             <div class="col-md-6">
-                <?= $form->field($positionModel, 'tax_rate') ?>
+                <?= $form->field($positionModel, 'tax_rate')->textInput(['type' => 'number', 'step' => 'any']) ?>
             </div>
             <div class="col-md-6">
                 <?= $form->field($positionModel, 'tax_sum')->textInput(['disabled' => 'disabled']) ?>
@@ -72,7 +72,7 @@ $positionModel->excise_sum = '0.00';
             <legend class="text-bold">Акциз</legend>
 
             <div class="col-md-6">
-                <?= $form->field($positionModel, 'excise_rate')->textInput(['disabled' => 'disabled']) ?>
+                <?= $form->field($positionModel, 'excise_rate')->textInput(['type' => 'number', 'step' => 'any', 'disabled' => 'disabled']) ?>
             </div>
 
             <div class="col-md-6">

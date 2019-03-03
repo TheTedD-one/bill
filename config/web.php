@@ -8,6 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'ru-RU',
+    'charset'=>'utf-8',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -60,6 +61,16 @@ $config = [
             'rules' => [
                 '' => 'bill/index',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+            ],
+        ],
+    ],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['site/error', 'site/login'],
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['@'],
             ],
         ],
     ],
