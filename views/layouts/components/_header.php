@@ -24,7 +24,7 @@ use yii\helpers\Url;
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <?= Html::img('/images/placeholder.jpg'); ?>
-                    <span>Victoria</span>
+                    <span>Администратор</span>
                     <i class="caret"></i>
                 </a>
 
