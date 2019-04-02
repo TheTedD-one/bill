@@ -42,7 +42,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li class="media">
                         <div class="media-left"></div>
                         <div class="media-body">
+                            <span class="text-size-small text-muted">Банк: </span><span class="text-size-small"><?= $billModel->me->bank ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
                             <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->me->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИК: </span><span class="text-size-small"><?= $billModel->me->bik ?></span>
                         </div>
                     </li>
                     <li class="media">
@@ -68,7 +80,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li class="media">
                         <div class="media-left"></div>
                         <div class="media-body">
+                            <span class="text-size-small text-muted">Банк: </span><span class="text-size-small"><?= $billModel->sender->bank ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
                             <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->sender->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИК: </span><span class="text-size-small"><?= $billModel->sender->bik ?></span>
                         </div>
                     </li>
                     <li class="media">
@@ -97,7 +121,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li class="media">
                         <div class="media-left"></div>
                         <div class="media-body">
+                            <span class="text-size-small text-muted">Банк: </span><span class="text-size-small"><?= $billModel->customer->bank ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
                             <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->customer->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИК: </span><span class="text-size-small"><?= $billModel->customer->bik ?></span>
                         </div>
                     </li>
                     <li class="media">
@@ -123,7 +159,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li class="media">
                         <div class="media-left"></div>
                         <div class="media-body">
+                            <span class="text-size-small text-muted">Банк: </span><span class="text-size-small"><?= $billModel->recipient->bank ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
                             <span class="text-size-small text-muted">ИИК: </span><span class="text-size-small"><?= $billModel->recipient->iik ?></span>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left"></div>
+                        <div class="media-body">
+                            <span class="text-size-small text-muted">БИК: </span><span class="text-size-small"><?= $billModel->recipient->bik ?></span>
                         </div>
                     </li>
                     <li class="media">
@@ -185,6 +233,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading">
         <h5 class="panel-title">Позиции<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
         <div class="heading-elements">
+            <div class="btn-group" style="margin-right: 4px">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Счет на оплату <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="<?= Url::to(['/pdf/payment', 'id' => $billModel->id]) ?>" target="_blank">
+                            <i class="icon-file-eye"></i> Просмотреть</a>
+                    </li>
+                    <li><a href="#" data-toggle="modal" data-target="#payment_send_modal"><i class="icon-envelop3"></i> Отправить</a></li>
+                </ul>
+            </div>
             <a href="<?= Url::to(['/pdf/invoice', 'id' => $billModel->id]) ?>"
                class="btn btn-primary"
                target="_blank"
@@ -210,10 +267,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     [
                         'attribute' => 'name',
-                        'enableSorting' => false
-                    ],
-                    [
-                        'attribute' => 'unit',
                         'enableSorting' => false
                     ],
                     [
@@ -280,6 +333,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="modal-dialog">
         <?= $this->render('components/_position-form', [
             'positionModel' => $positionModel,
+            'billModel' => $billModel,
+        ]); ?>
+    </div>
+</div>
+
+<div id="payment_send_modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <?= $this->render('components/_payment-send-form', [
             'billModel' => $billModel,
         ]); ?>
     </div>

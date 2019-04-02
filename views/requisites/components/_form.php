@@ -34,7 +34,16 @@ $form = ActiveForm::begin([
                                 <?= $form->field($model, 'bin') ?>
                             </div>
                             <div class="col-md-6">
+                                <?= $form->field($model, 'bank') ?>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
                                 <?= $form->field($model, 'iik') ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?= $form->field($model, 'bik') ?>
                             </div>
                         </div>
                     </fieldset>
@@ -142,6 +151,8 @@ $script = <<<JS
         $('#requisites-address').val(model.address);
         $('#requisites-bin').val(model.bin);
         $('#requisites-iik').val(model.iik);
+        $('#requisites-bank').val(model.bank);
+        $('#requisites-bik').val(model.bik);
         
         $('.requisites-submit-button').html('<i class="icon-pencil position-left"></i>Редактировать');
         $('.modal-title-js').html('Редактирование реквизита');
@@ -152,6 +163,8 @@ $script = <<<JS
         $('#requisites-address').val('');
         $('#requisites-bin').val('');
         $('#requisites-iik').val('');
+        $('#requisites-bank').val('');
+        $('#requisites-bik').val('');
         
         $('.form-group.has-success').each(function(){
             $(this).removeClass('has-success');

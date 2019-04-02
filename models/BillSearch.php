@@ -33,6 +33,7 @@ class BillSearch extends Bill
     public function search($params)
     {
         $query = Bill::find();
+        $query->orderBy('id DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

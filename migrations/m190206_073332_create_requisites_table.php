@@ -19,7 +19,9 @@ class m190206_073332_create_requisites_table extends Migration
             'modified_date' => $this->dateTime()->notNull(),
             'name' => $this->string()->notNull(),
             'bin' => $this->string()->notNull(),
+            'bank' => $this->string()->notNull(),
             'iik' => $this->string()->notNull(),
+            'bik' => $this->string()->notNull(),
             'address' => $this->string()->notNull(),
             'isMe' => $this->boolean()->notNull()->defaultValue(0),
         ]);

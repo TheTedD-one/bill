@@ -48,8 +48,10 @@ class Requisites extends BaseModel implements RemovableInterface
                 [
                     'name',
                     'bin',
+                    'bank',
                     'iik',
-                    'address'
+                    'bik',
+                    'address',
                 ],
                 'required'
             ],
@@ -64,7 +66,9 @@ class Requisites extends BaseModel implements RemovableInterface
                 [
                     'name',
                     'bin',
+                    'bank',
                     'iik',
+                    'bik',
                     'address'
                 ],
                 'string',
@@ -82,7 +86,9 @@ class Requisites extends BaseModel implements RemovableInterface
             'modified_date' => 'Modified Date',
             'name' => 'Наименование компании',
             'bin' => 'БИН',
+            'bank' => 'Банк',
             'iik' => 'ИИК',
+            'bik' => 'БИК',
             'address' => 'Адрес',
             'isMe' => 'Мои реквизиты',
         ];
