@@ -1,7 +1,7 @@
 <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h5 class="modal-title modal-title-js">Отправить счет на email</h5>
+        <h5 class="modal-title">Отправить счет на email</h5>
     </div>
 
     <div class="modal-body">
@@ -21,7 +21,7 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-success btn-rounded email-send-button"><i class="icon-plus-circle2 position-left"></i>Добавить</button>
+        <button type="button" class="btn btn-success btn-rounded email-send-button"><i class="icon-paperplane position-left"></i>Отправить</button>
         <button type="button" class="btn border-danger text-danger btn-flat btn-rounded" data-dismiss="modal"><i class="icon-cross2 position-left"></i>Закрыть</button>
     </div>
 </div>
